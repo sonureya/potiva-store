@@ -19,8 +19,18 @@
         .product-card h3 { color: #724216; margin-top: 0; font-size: 1.3rem; margin-bottom: 0.5rem; }
         .product-card p { font-size: 0.95rem; color: #666; line-height: 1.5; margin-bottom: 1.5rem; }
         .price-tag { font-size: 1.4rem; font-weight: 700; color: #b8860b; margin-bottom: 1rem; display: block; line-height: 1.2; }
-        .buy-btn { background-color: #25D366; color: white; text-align: center; padding: 0.8rem 1.5rem; border: none; border-radius: 6px; font-weight: bold; text-decoration: none; display: block; font-size: 1rem; transition: background-color 0.2s; box-shadow: 0 3px 6px rgba(37,211,102,0.2); cursor: pointer; }
+        
+        .btn-box { display: flex; flex-direction: column; gap: 0.5rem; }
+        .buy-btn { background-color: #25D366; color: white; text-align: center; padding: 0.8rem 1rem; border: none; border-radius: 6px; font-weight: bold; text-decoration: none; display: block; font-size: 0.95rem; transition: background-color 0.2s; box-shadow: 0 3px 6px rgba(37,211,102,0.2); }
         .buy-btn:hover { background-color: #128C7E; }
+        .qr-btn { background-color: #724216; color: white; text-align: center; padding: 0.5rem 1rem; border: none; border-radius: 6px; font-weight: 600; text-decoration: none; display: block; font-size: 0.85rem; cursor: pointer; }
+        
+        /* QR Modal Screen */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); align-items: center; justify-content: center; }
+        .modal-content { background-color: white; padding: 2rem; border-radius: 12px; text-align: center; max-width: 90%; width: 320px; box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
+        .modal-content img { width: 200px; height: 200px; margin: 1rem 0; }
+        .close-btn { background-color: #333; color: white; border: none; padding: 0.5rem 1.5rem; border-radius: 6px; cursor: pointer; font-weight: bold; margin-top: 1rem; }
+
         footer { background-color: #222; color: #bbb; text-align: center; padding: 2rem 1rem; font-size: 0.95rem; margin-top: 4rem; }
         footer p { margin: 0.4rem 0; }
         footer strong { color: white; }
@@ -43,9 +53,10 @@
                 <h3>Pure Kasa (Bronze) Thali</h3>
                 <p>Traditional handcrafted ayurvedic bronze plate set. Perfect for healthy dining and premium family use.</p>
             </div>
-            <div>
+            <div class="btn-box">
                 <span class="price-tag">Starting From ₹2,600<br><span style="font-size:1.1rem; font-weight:normal; color:#666;">per/Kg</span></span>
-                <button onclick="openWA('Pure Kasa Thali')" class="buy-btn">Order on WhatsApp</button>
+                <a href="https://wa.me" class="buy-btn" target="_blank">Order on WhatsApp</a>
+                <button onclick="showQR('Pure Kasa Thali')" class="qr-btn">Show QR Code</button>
             </div>
         </div>
     </div>
@@ -58,9 +69,10 @@
                 <h3>Pure Kasa (Bronze) Bati</h3>
                 <p>Authentic premium handcrafted bronze bowl. Traditional design known for daily metabolic wellness and pure longevity benefits.</p>
             </div>
-            <div>
+            <div class="btn-box">
                 <span class="price-tag">Starting From ₹2,600<br><span style="font-size:1.1rem; font-weight:normal; color:#666;">per/Kg</span></span>
-                <button onclick="openWA('Pure Kasa Bati')" class="buy-btn">Order on WhatsApp</button>
+                <a href="https://wa.me" class="buy-btn" target="_blank">Order on WhatsApp</a>
+                <button onclick="showQR('Pure Kasa Bati')" class="qr-btn">Show QR Code</button>
             </div>
         </div>
     </div>
@@ -73,9 +85,10 @@
                 <h3>Stainless Steel Kadai</h3>
                 <p>Thick-bottom, rust-proof commercial stainless steel cooking pan made for daily rough kitchen use.</p>
             </div>
-            <div>
+            <div class="btn-box">
                 <span class="price-tag">₹850</span>
-                <button onclick="openWA('Stainless Steel Kadai')" class="buy-btn">Order on WhatsApp</button>
+                <a href="https://wa.me" class="buy-btn" target="_blank">Order on WhatsApp</a>
+                <button onclick="showQR('Stainless Steel Kadai')" class="qr-btn">Show QR Code</button>
             </div>
         </div>
     </div>
@@ -88,9 +101,10 @@
                 <h3>Aluminium Dekchi / Handi</h3>
                 <p>High-grade heavy gauge aluminium pot that ensures balanced heating for cooking larger meals smoothly.</p>
             </div>
-            <div>
+            <div class="btn-box">
                 <span class="price-tag">₹650</span>
-                <button onclick="openWA('Aluminium Dekchi')" class="buy-btn">Order on WhatsApp</button>
+                <a href="https://wa.me" class="buy-btn" target="_blank">Order on WhatsApp</a>
+                <button onclick="showQR('Aluminium Dekchi')" class="qr-btn">Show QR Code</button>
             </div>
         </div>
     </div>
@@ -103,9 +117,10 @@
                 <h3>Premium Multi-Tier Tiffin Box</h3>
                 <p>Heavy-duty, secure leak-proof multi-layer carrier box. Keeps food warm and fresh for office or travel meals.</p>
             </div>
-            <div>
+            <div class="btn-box">
                 <span class="price-tag">₹450</span>
-                <button onclick="openWA('Multi Tier Tiffin Box')" class="buy-btn">Order on WhatsApp</button>
+                <a href="https://wa.me" class="buy-btn" target="_blank">Order on WhatsApp</a>
+                <button onclick="showQR('Multi Tier Tiffin Box')" class="qr-btn">Show QR Code</button>
             </div>
         </div>
     </div>
@@ -118,9 +133,10 @@
                 <h3>Traditional Metal Glass Set</h3>
                 <p>Elegant design with a weighted base. Excellent durability and health benefits for pure daily water consumption.</p>
             </div>
-            <div>
+            <div class="btn-box">
                 <span class="price-tag">₹280<br><span style="font-size:1.1rem; font-weight:normal; color:#666;">per/Piece</span></span>
-                <button onclick="openWA('Traditional Metal Glass Set')" class="buy-btn">Order on WhatsApp</button>
+                <a href="https://wa.me" class="buy-btn" target="_blank">Order on WhatsApp</a>
+                <button onclick="showQR('Traditional Metal Glass Set')" class="qr-btn">Show QR Code</button>
             </div>
         </div>
     </div>
@@ -133,9 +149,10 @@
                 <h3>Premium Traditional Serving Bowl</h3>
                 <p>Polished deep storage and serving accessory. Suited for presenting authentic traditional curries and side dishes.</p>
             </div>
-            <div>
+            <div class="btn-box">
                 <span class="price-tag">₹180</span>
-                <button onclick="openWA('Premium Serving Bowl')" class="buy-btn">Order on WhatsApp</button>
+                <a href="https://wa.me" class="buy-btn" target="_blank">Order on WhatsApp</a>
+                <button onclick="showQR('Premium Serving Bowl')" class="qr-btn">Show QR Code</button>
             </div>
         </div>
     </div>
@@ -148,50 +165,6 @@
                 <h3>Heavy Cooking Hata (Ladle)</h3>
                 <p>Thick-gauge long-handle ladle forged for balanced handling. Ideal for smooth serving of dals, stews, and soups.</p>
             </div>
-            <div>
+            <div class="btn-box">
                 <span class="price-tag">₹150</span>
-                <button onclick="openWA('Heavy Cooking Hata')" class="buy-btn">Order on WhatsApp</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Item 9: Khunti -->
-    <div class="product-card">
-        <img class="product-img" src="khunti.jpg" alt="Authentic Forged Khunti Spatula">
-        <div class="product-info">
-            <div>
-                <h3>Authentic Forged Khunti (Spatula)</h3>
-                <p>Classic sturdy kitchen spatula designed for heavy frying and stirring tasks. Engineered with a flat broad edge.</p>
-            </div>
-            <div>
-                <span class="price-tag">₹160</span>
-                <button onclick="openWA('Forged Khunti')" class="buy-btn">Order on WhatsApp</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<footer>
-    <p><strong>Potiva Store</strong> &copy; 2026. All Rights Reserved.</p>
-    <p>Contact Us: <strong>+91 8617565772</strong> | Tap any item above to order directly via WhatsApp!</p>
-</footer>
-
-<script>
-function openWA(itemName) {
-    var phone = "918617565772";
-    var text = encodeURIComponent("Hello Potiva Store, I want to order the " + itemName);
-    
-    // Attempt standard web API route first
-    var url = "https://whatsapp.com" + phone + "&text=" + text;
-    
-    // Fallback detection logic for rigid mobile views
-    if (/Android|iPhone|iPad/i.test(navigator.userAgent)) {
-        url = "whatsapp://send?phone=" + phone + "&text=" + text;
-    }
-    
-    window.location.href = url;
-}
-</script>
-
-</body>
-</html>
+                <a href="https://wa.me" class="buy-btn" target="_blank">Order on WhatsApp</a>
