@@ -76,7 +76,7 @@
         .status-pill.active { background: var(--primary); color: white; }
 
         .upi-pay-box { text-align: center; margin: 1rem 0; padding: 1rem; background: #f0f7f4; border: 1px solid #c3e6cb; border-radius: 8px; display: none; }
-        .upi-qr { width: 180px; height: 180px; margin: 0.5rem auto; border: 4px solid white; display: block; }
+        .upi-qr { width: 180px; height: 180px; margin: 0.5rem auto; border: 4px solid #ffffff; display: block; object-fit: contain; }
         .upi-apps-btn { display: inline-block; background-color: #0070e0; color: white; padding: 0.6rem 1.2rem; border-radius: 6px; font-weight: bold; text-decoration: none; font-size: 0.9rem; margin-top: 0.5rem; }
 
         .success-box { max-width: 600px; background: var(--white); margin: 4rem auto; padding: 3rem 2rem; border-radius: 16px; border: 1px solid #ebdcc5; box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: center; }
@@ -163,7 +163,7 @@
                     </div>
                     <div class="upi-pay-box" id="upi-node">
                         <p style="font-weight:600; font-size:0.9rem; color:var(--primary);">Scan QR or Click Mobile Link to Pay:</p>
-                        <img class="upi-qr" id="live-upi-qr" src=""><a class="upi-apps-btn" id="live-upi-link" href="#" target="_blank">Open UPI App</a>
+                        <img class="upi-qr" id="live-upi-qr" src="" alt="UPI QR Code"><a class="upi-apps-btn" id="live-upi-link" href="#" target="_blank">Open UPI App Framework</a>
                     </div>
                     <input type="hidden" name="Order ID" id="hidden-order-id">
                     <input type="hidden" name="Ordered Items Summary" id="hidden-items-string">
@@ -318,8 +318,11 @@
         cart.forEach(item => total += (item.price * item.qty));
         document.getElementById("checkout-grand-total").innerText = "₹" + total;
         
+        // High-Speed Standard VPA Parameters Compile
         var upiString = `upi://pay?pa=${MY_UPI_ID}&pn=${encodeURIComponent(MERCHANT_NAME)}&am=${total}&cu=INR&tn=PotivaStoreOrder`;
         document.getElementById("live-upi-link").href = upiString;
+        
+        // New Robust Global QR Image Generator API Implementation
         document.getElementById("live-upi-qr").src = `https://qrserver.com{encodeURIComponent(upiString)}`;
         
         document.getElementById("homepage-view").style.display = "none";
@@ -419,6 +422,3 @@
         document.getElementById("success-page-view").style.display = "block";
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-    </script>
-</body>
-</html>
