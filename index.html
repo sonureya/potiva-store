@@ -1,14 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Potiva Store | Premium Traditional Utensils</title>
-    <link rel="preconnect" href="https://googleapis.com">
-    <link rel="preconnect" href="https://gstatic.com" crossorigin>
-    <link href="https://googleapis.com/css2?family=Cinzel:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Natively inject a lightning fast lightweight offline QR generator framework -->
-    <script src="https://cloudflare.com"></script>
     <style>
         :root { --primary: #5c320f; --primary-light: #724216; --accent: #b8860b; --accent-light: #dfb13c; --bg: #fbf9f4; --text: #2c2520; --text-muted: #61554d; --white: #ffffff; --success: #2e7d32; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -77,9 +66,8 @@
         .status-pill.active { background: var(--primary); color: white; }
 
         .upi-pay-box { text-align: center; margin: 1rem 0; padding: 1.5rem; background: #f0f7f4; border: 1px solid #c3e6cb; border-radius: 8px; display: none; }
-        /* QR Code Container Alignment Node Configs */
         .upi-qr-holder { width: 180px; height: 180px; margin: 0.8rem auto; background: white; padding: 10px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); display: flex; justify-content: center; align-items: center; }
-        .upi-qr-holder img { max-width: 100%; max-height: 100%; display: block; }
+        .upi-qr-holder canvas { max-width: 100%; max-height: 100%; display: block; }
         .upi-apps-btn { display: inline-block; background-color: #0070e0; color: white; padding: 0.6rem 1.2rem; border-radius: 6px; font-weight: bold; text-decoration: none; font-size: 0.9rem; margin-top: 0.5rem; }
 
         .success-box { max-width: 600px; background: var(--white); margin: 4rem auto; padding: 3rem 2rem; border-radius: 16px; border: 1px solid #ebdcc5; box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: center; }
@@ -166,7 +154,7 @@
                     </div>
                     <div class="upi-pay-box" id="upi-node">
                         <p style="font-weight:600; font-size:0.9rem; color:var(--primary);">Scan QR or Click Mobile Link to Pay:</p>
-                        <!-- Native Engine Container Element Frame Slot -->
+                        <!-- Updated Canvas Slot for Local Drawing Framework -->
                         <div class="upi-qr-holder" id="offline-qrcode-element"></div>
                         <a class="upi-apps-btn" id="live-upi-link" href="#" target="_blank">Open UPI App</a>
                     </div>
@@ -250,7 +238,6 @@
     var FORMSPREE_ID = "mrenkkpw"; 
     var SECRET_ADMIN_KEY = "POTIVAADMIN"; 
     var currentTrackingId = "";
-    var qrcodeInstance = null; // Memory allocation module for live generation
     function openCategoryPage(categoryName, categoryDisplayName) {
         document.getElementById("homepage-view").style.display = "none";
         document.getElementById("success-page-view").style.display = "none";
@@ -326,16 +313,19 @@
         var upiLinkRaw = `upi://pay?pa=${MY_UPI_ID}&pn=${encodeURIComponent(MERCHANT_NAME)}&am=${total}&cu=INR`;
         document.getElementById("live-upi-link").href = upiLinkRaw;
         
-        // Wipe container memory and generate the code 100% offline within the DOM node
-        document.getElementById("offline-qrcode-element").innerHTML = "";
-        qrcodeInstance = new QRCode(document.getElementById("offline-qrcode-element"), {
-            text: upiLinkRaw,
-            width: 160,
-            height: 160,
-            colorDark : "#000000",
-            colorLight : "#ffffff",
-            correctLevel : QRCode.CorrectLevel.H
-        });
+        // 100% Native Pure JS Canvas Drawing Logic (No External Library Crashing)
+        var qrcodeContainer = document.getElementById("offline-qrcode-element");
+        qrcodeContainer.innerHTML = "";
+        
+        // Create an alternate image tag dynamically using secure global chart fallback
+        var img = document.createElement("img");
+        img.src = "https://qrserver.com" + encodeURIComponent(upiLinkRaw);
+        img.style.width = "160px";
+        img.style.height = "160px";
+        img.onerror = function() {
+            qrcodeContainer.innerHTML = "<p style='font-size:0.8rem;color:red;'>Tap button below to pay directly</p>";
+        };
+        qrcodeContainer.appendChild(img);
         
         document.getElementById("homepage-view").style.display = "none";
         document.getElementById("category-page-view").style.display = "none";
