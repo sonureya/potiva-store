@@ -56,7 +56,6 @@
         .checkout-btn { background-color: var(--primary); color: white; width: 100%; padding: 1rem; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; }
         .checkout-btn:hover { background-color: var(--primary-light); }
 
-        /* Amazon Checkout Page Forms & Layout */
         .checkout-flex { max-width: 1000px; margin: 2rem auto; padding: 0 1rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
         .checkout-form-panel { background: var(--white); border: 1px solid #ebdcc5; padding: 2rem; border-radius: 12px; }
         .form-section-title { font-family: 'Cinzel', serif; color: var(--primary); font-size: 1.3rem; margin-bottom: 1.5rem; border-bottom: 2px solid #ebdcc5; padding-bottom: 0.5rem; }
@@ -65,6 +64,11 @@
         .form-control { width: 100%; padding: 0.75rem; border: 1px solid #ebdcc5; border-radius: 6px; font-family: inherit; font-size: 0.95rem; }
         .radio-group { display: flex; flex-direction: column; gap: 0.8rem; }
         .radio-label { display: flex; align-items: center; gap: 0.6rem; background: #faf8f5; border: 1px solid #ebdcc5; padding: 0.8rem; border-radius: 6px; cursor: pointer; font-weight: 500; }
+
+        /* UPI Payment Section Layout */
+        .upi-pay-box { text-align: center; margin: 1rem 0; padding: 1rem; background: #f0f7f4; border: 1px solid #c3e6cb; border-radius: 8px; display: none; }
+        .upi-qr { width: 180px; height: 180px; margin: 0.5rem auto; border: 4px solid white; display: block; }
+        .upi-apps-btn { display: inline-block; background-color: #0070e0; color: white; padding: 0.6rem 1.2rem; border-radius: 6px; font-weight: bold; text-decoration: none; font-size: 0.9rem; margin-top: 0.5rem; }
 
         .success-box { max-width: 600px; background: var(--white); margin: 4rem auto; padding: 3rem 2rem; border-radius: 16px; border: 1px solid #ebdcc5; box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: center; }
         .success-icon { font-size: 4rem; color: var(--success); margin-bottom: 1rem; }
@@ -133,43 +137,27 @@
         </div>
         
         <div class="checkout-flex">
-            <!-- Left Panel: Delivery Details Address Config Form -->
             <div class="checkout-form-panel">
                 <div class="form-section-title">1. Delivery Address Location</div>
-                <div class="form-group">
-                    <label>Full Name</label>
-                    <input type="text" class="form-control" id="cust-name" placeholder="John Doe">
-                </div>
-                <div class="form-group">
-                    <label>Mobile Number (For Delivery Updates)</label>
-                    <input type="tel" class="form-control" id="cust-phone" placeholder="9876543210">
-                </div>
-                <div class="form-group">
-                    <label>Pincode</label>
-                    <input type="number" class="form-control" id="cust-pin" placeholder="742101">
-                </div>
-                <div class="form-group">
-                    <label>Flat, House no., Building, Company, Apartment, Area, Street</label>
-                    <input type="text" class="form-control" id="cust-address" placeholder="12/A Baker Street, Near Station">
-                </div>
+                <div class="form-group"><label>Full Name</label><input type="text" class="form-control" id="cust-name" placeholder="John Doe"></div>
+                <div class="form-group"><label>Mobile Number</label><input type="tel" class="form-control" id="cust-phone" placeholder="9876543210"></div>
+                <div class="form-group"><label>Pincode</label><input type="number" class="form-control" id="cust-pin" placeholder="742101"></div>
+                <div class="form-group"><label>Full Street Address</label><input type="text" class="form-control" id="cust-address" placeholder="12/A Baker Street, Near Station"></div>
             </div>
 
-            <!-- Right Panel: Payment Selection Framework -->
             <div class="checkout-form-panel">
                 <div class="form-section-title">2. Select Payment Method</div>
                 <div class="radio-group">
-                    <label class="radio-label">
-                        <input type="radio" name="pay-method" value="COD" checked>
-                        <span>📦 Pay on Delivery (Cash/UPI at your doorstep)</span>
-                    </label>
-                    <label class="radio-label">
-                        <input type="radio" name="pay-method" value="UPI">
-                        <span>📱 Instant UPI / Net Banking Simulation</span>
-                    </label>
-                    <label class="radio-label">
-                        <input type="radio" name="pay-method" value="CARD">
-                        <span>💳 Credit / Debit Card Gateway Framework</span>
-                    </label>
+                    <label class="radio-label"><input type="radio" name="pay-method" value="COD" checked onclick="handlePaymentToggle()"><span>📦 Pay on Delivery (Cash/UPI)</span></label>
+                    <label class="radio-label"><input type="radio" name="pay-method" value="UPI" onclick="handlePaymentToggle()"><span>📱 Pay Online via UPI QR / App Button</span></label>
+                </div>
+                
+                <!-- Live Dynamic UPI Payment Node -->
+                <div class="upi-pay-box" id="upi-node">
+                    <p style="font-weight:600; font-size:0.9rem; color:var(--primary);">Scan QR or Click Mobile Link to Pay:</p>
+                    <img class="upi-qr" id="live-upi-qr" src="">
+                    <a class="upi-apps-btn" id="live-upi-link" href="#" target="_blank">Open UPI App (Mobile Only)</a>
+                    <p style="font-size:0.8rem; margin-top:0.5rem; color:var(--text-muted);">After paying, click the brown confirm order button below.</p>
                 </div>
                 
                 <div style="margin-top: 2rem; padding-top: 1rem; border-top: 2px solid #ebdcc5;">
@@ -187,11 +175,7 @@
             <h2>Order Placed Successfully!</h2>
             <p>Thank you for shopping with Potiva Store. Your order is processed natively.</p>
             <div class="order-id" id="display-order-id">ORDER ID: #12345</div>
-            
-            <div class="receipt-summary" id="receipt-items-box">
-                <!-- Receipt structures insert dynamically here -->
-            </div>
-            
+            <div class="receipt-summary" id="receipt-items-box"></div>
             <button class="checkout-btn" onclick="returnToHome()">Continue Shopping</button>
         </div>
     </div>
@@ -215,6 +199,13 @@
 
     <script>
     var cart = [];
+    
+    // CONFIGURATION: Apna Real UPI ID yahan dalein taaki payment aapke paas aaye
+    var MY_UPI_ID = "8617565772@ptsbi"; 
+    var MERCHANT_NAME = "Potiva Store";
+
+    // EMAIL CONFIGURATION: Apka Formspree Form ID yahan aayega
+    var FORMSPREE_ID = "mrenkkpw"; 
 
     function openCategoryPage(categoryName, categoryDisplayName) {
         document.getElementById("homepage-view").style.display = "none";
@@ -245,59 +236,51 @@
     function addToCart(name, price, qtyId) {
         var qty = parseInt(document.getElementById(qtyId).value);
         var existingIndex = cart.findIndex(item => item.name === name);
-        if(existingIndex > -1) {
-            cart[existingIndex].qty += qty;
-        } else {
-            cart.push({ name: name, price: price, qty: qty });
-        }
+        if(existingIndex > -1) { cart[existingIndex].qty += qty; } else { cart.push({ name: name, price: price, qty: qty }); }
         updateCartUI();
         toggleCart(true);
     }
 
-    function removeCartItem(index) {
-        cart.splice(index, 1);
-        updateCartUI();
-    }
+    function removeCartItem(index) { cart.splice(index, 1); updateCartUI(); }
 
     function updateCartUI() {
         var container = document.getElementById("cart-items-container");
         var globalCount = document.getElementById("global-cart-count");
         var totalField = document.getElementById("cart-total-price");
-        
         if(cart.length === 0) {
             container.innerHTML = '<p style="color:var(--text-muted); text-align:center; margin-top:2rem;">Your cart is empty.</p>';
-            globalCount.innerText = "0";
-            totalField.innerText = "₹0";
-            return;
+            globalCount.innerText = "0"; totalField.innerText = "₹0"; return;
         }
-        
-        var total = 0;
-        var count = 0;
-        container.innerHTML = "";
-        
+        var total = 0; var count = 0; container.innerHTML = "";
         cart.forEach((item, index) => {
-            total += (item.price * item.qty);
-            count += item.qty;
+            total += (item.price * item.qty); count += item.qty;
             container.innerHTML += `<div class="cart-item"><div><strong>${item.name}</strong><br><small>₹${item.price} x ${item.qty}</small></div><button style="color:red; background:none; border:none; cursor:pointer;" onclick="removeCartItem(${index})">Delete</button></div>`;
         });
-        
-        globalCount.innerText = count;
-        totalField.innerText = "₹" + total;
+        globalCount.innerText = count; totalField.innerText = "₹" + total;
     }
 
     function navigateToCheckout() {
         if(cart.length === 0) { alert("Your cart is empty!"); return; }
         toggleCart(false);
-        
         var total = 0;
         cart.forEach(item => total += (item.price * item.qty));
         document.getElementById("checkout-grand-total").innerText = "₹" + total;
+        
+        // Dynamic UPI Parameter Generator Engine
+        var upiString = `upi://pay?pa=${MY_UPI_ID}&pn=${encodeURIComponent(MERCHANT_NAME)}&am=${total}&cu=INR&tn=Potiva%20Store%20Order`;
+        document.getElementById("live-upi-link").href = upiString;
+        document.getElementById("live-upi-qr").src = `https://qrserver.com{encodeURIComponent(upiString)}`;
         
         document.getElementById("homepage-view").style.display = "none";
         document.getElementById("category-page-view").style.display = "none";
         document.getElementById("success-page-view").style.display = "none";
         document.getElementById("checkout-page-view").style.display = "block";
         window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function handlePaymentToggle() {
+        var selected = document.querySelector('input[name="pay-method"]:checked').value;
+        document.getElementById("upi-node").style.display = (selected === "UPI") ? "block" : "none";
     }
 
     function validateAndProcessOrder() {
@@ -307,39 +290,47 @@
         var address = document.getElementById("cust-address").value.trim();
         var payment = document.querySelector('input[name="pay-method"]:checked').value;
         
-        if(!name || !phone || !pin || !address) {
-            alert("Please fill out all missing delivery location fields!");
-            return;
-        }
+        if(!name || !phone || !pin || !address) { alert("Please fill out all missing delivery fields!"); return; }
         
         var randomId = "POT-" + Math.floor(100000 + Math.random() * 900000);
         document.getElementById("display-order-id").innerText = "ORDER ID: #" + randomId;
         
         var receiptContainer = document.getElementById("receipt-items-box");
         receiptContainer.innerHTML = "<h4>Receipt Details:</h4><br>";
-        
-        receiptContainer.innerHTML += `<div class="receipt-row" style="color:var(--text-muted);"><span>Ship To:</span><span><strong>${name}</strong> (${phone}), Pincode: ${pin}</span></div>`;
-        receiptContainer.innerHTML += `<div class="receipt-row" style="color:var(--text-muted); margin-bottom:1rem;"><span>Address:</span><span>${address}</span></div>`;
-        receiptContainer.innerHTML += `<div class="receipt-row" style="color:var(--accent); font-weight:bold; margin-bottom:1rem;"><span>Payment Method:</span><span>${payment}</span></div>`;
+        receiptContainer.innerHTML += `<div class="receipt-row"><span>Ship To:</span><span><strong>${name}</strong> (${phone})</span></div>`;
+        receiptContainer.innerHTML += `<div class="receipt-row"><span>Address:</span><span>${address}, Pin: ${pin}</span></div>`;
+        receiptContainer.innerHTML += `<div class="receipt-row" style="color:var(--accent); font-weight:bold;"><span>Payment:</span><span>${payment}</span></div>`;
         
         var total = 0;
+        var itemsString = "";
         cart.forEach(item => {
-            var cost = item.price * item.qty;
-            total += cost;
+            var cost = item.price * item.qty; total += cost;
             receiptContainer.innerHTML += `<div class="receipt-row"><span>${item.name} (x${item.qty})</span><span>₹${cost}</span></div>`;
+            itemsString += `${item.name} x ${item.qty} (₹${cost}), `;
         });
+        receiptContainer.innerHTML += `<div class="receipt-row" style="font-weight:bold; border-top:2px solid #ebdcc5; font-size:1.1rem;"><span>Grand Total:</span><span>₹${total}</span></div>`;
         
-        receiptContainer.innerHTML += `<div class="receipt-row" style="font-weight:bold; margin-top:1rem; border-top:2px solid #ebdcc5; font-size:1.1rem;"><span>Grand Total Paid:</span><span>₹${total}</span></div>`;
-        
-        cart = [];
-        updateCartUI();
-        
-        // Reset address inputs
-        document.getElementById("cust-name").value = "";
-        document.getElementById("cust-phone").value = "";
-        document.getElementById("cust-pin").value = "";
-        document.getElementById("cust-address").value = "";
-        
+        // Background Formspree Email Pipeline API Call
+        if(FORMSPREE_ID !== "mrenkkpw") {
+            fetch(`https://formspree.io{FORMSPREE_ID}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify({
+                    "Order ID": "#" + randomId,
+                    "Customer Name": name,
+                    "Phone Number": phone,
+                    "Pincode": pin,
+                    "Full Address": address,
+                    "Payment Method": payment,
+                    "Ordered Items": itemsString,
+                    "Total Amount": "₹" + total
+                })
+            }).catch(err => console.log("Email pipeline log: ", err));
+        }
+
+        cart = []; updateCartUI();
+        document.getElementById("cust-name").value = ""; document.getElementById("cust-phone").value = "";
+        document.getElementById("cust-pin").value = ""; document.getElementById("cust-address").value = "";
         document.getElementById("checkout-page-view").style.display = "none";
         document.getElementById("success-page-view").style.display = "block";
         window.scrollTo({ top: 0, behavior: 'smooth' });
