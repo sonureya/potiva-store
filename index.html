@@ -44,13 +44,17 @@
             text-transform: uppercase;
         }
 
-        /* Hero Header */
+        /* Views Configuration */
+        .view-section { display: block; }
+        #category-page-view { display: none; } /* Hidden initially */
+
+        /* Hero Header (Homepage Only) */
         header { 
             background: linear-gradient(rgba(44, 23, 6, 0.82), rgba(92, 50, 15, 0.92)), 
                         url('https://unsplash.com') no-repeat center/cover;
             color: var(--white); 
             text-align: center; 
-            padding: 5rem 1.5rem; 
+            padding: 6rem 1.5rem; 
             border-bottom: 4px solid var(--accent);
         }
 
@@ -117,14 +121,14 @@
             background: var(--white);
             border: 2px solid #ebdcc5;
             border-radius: 16px;
-            padding: 2.5rem 1.5rem;
+            padding: 3.5rem 1.5rem;
             text-align: center;
             cursor: pointer;
             box-shadow: 0 6px 15px rgba(114,66,22,0.04);
             transition: all 0.3s ease;
         }
 
-        .category-card:hover, .category-card.active {
+        .category-card:hover {
             border-color: var(--accent);
             background-color: var(--primary);
             color: var(--white);
@@ -134,7 +138,7 @@
 
         .category-card h2 {
             font-family: 'Cinzel', serif;
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             margin-bottom: 0.8rem;
         }
 
@@ -143,19 +147,50 @@
             opacity: 0.8;
         }
 
-        .category-card.active p {
-            color: #fff;
-            opacity: 0.9;
+        /* Category Page Specific Elements */
+        .category-header-bar {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 2.5rem 1rem;
+            text-align: center;
+            border-bottom: 4px solid var(--accent);
+            position: relative;
         }
 
-        /* Products Grid Setup (Hidden by Default) */
+        .category-header-bar h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.4rem;
+            letter-spacing: 1px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 1rem;
+            background-color: transparent;
+            color: var(--accent-light);
+            border: 1px solid var(--accent-light);
+            padding: 0.5rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            transition: all 0.2s;
+        }
+
+        .back-btn:hover {
+            background-color: var(--accent-light);
+            color: var(--primary);
+        }
+
+        /* Products Grid Layout Frame */
         .container { 
             max-width: 1200px; 
-            margin: 0 auto; 
-            padding: 0 1rem 4rem 1rem; 
-            display: none; /* JavaScript will make this flex later */
+            margin: 3rem auto; 
+            padding: 0 1rem; 
+            display: flex; 
             flex-wrap: wrap; 
-            gap: 2rem; 
+            gap: 2.5rem; 
             justify-content: center; 
         }
 
@@ -167,7 +202,7 @@
             overflow: hidden; 
             box-shadow: 0 6px 12px rgba(114,66,22,0.04); 
             text-align: center; 
-            display: none; /* Controlled dynamically */
+            display: none; /* Managed dynamically by category view script */
             flex-direction: column; 
             justify-content: space-between; 
             transition: transform 0.3s, box-shadow 0.3s; 
@@ -199,10 +234,6 @@
             margin-top: 0; 
             font-size: 1.3rem; 
             margin-bottom: 0.5rem; 
-        }
-
-        .product-card.active-card h3 {
-            color: var(--primary);
         }
 
         .product-card p { 
@@ -259,7 +290,7 @@
         .modal-content img { width: 200px; height: 200px; margin: 1rem 0; }
         .close-btn { background-color: #333; color: var(--white); border: none; padding: 0.5rem 1.5rem; border-radius: 6px; cursor: pointer; font-weight: bold; margin-top: 1rem; }
 
-        footer { background-color: #1e1915; color: #a89e95; text-align: center; padding: 4rem 1.5rem; font-size: 0.95rem; margin-top: 6rem; border-top: 4px solid var(--primary); }
+        footer { background-color: #1e1915; color: #a89e95; text-align: center; padding: 4rem 1.5rem; font-size: 0.95rem; border-top: 4px solid var(--primary); }
         footer p { margin: 0.4rem 0; }
         footer strong { color: var(--white); }
         .footer-highlight { color: var(--accent-light); font-weight: 600; }
@@ -267,40 +298,13 @@
         @media (max-width: 600px) {
             header h1 { font-size: 2.3rem; }
             header p { font-size: 1rem; }
+            .category-header-bar h2 { font-size: 1.8rem; }
         }
     </style>
 </head>
 <body>
 
-<div class="announcement-bar">
-    ✨ PURE TRADITIONAL ARTISAN CRAFTSMANSHIP SINCE 2000
-</div>
-
-<header>
-    <div class="legacy-tag">Celebrating 26 Years of Trust</div>
-    <h1>Potiva Store</h1>
-    <p>Humare 26 saal purane vishwas ke saath khareedye sabse behtareen paramparik bartan.</p>
-</header>
-
-<div class="section-title" id="main-title">Select a Category</div>
-
-<!-- Main Homepage Categories Grid -->
-<div class="category-grid" id="cat-grid">
-    <div class="category-card" onclick="openCategory('kasa', this)">
-        <h2>Kasa Collection</h2>
-        <p>Pure Bronze items known for absolute ayurvedic health benefits.</p>
-    </div>
-    <div class="category-card" onclick="openCategory('premium', this)">
-        <h2>Premium Metallic</h2>
-        <p>Heavy duty commercial grade Stainless Steel and Aluminium ware.</p>
-    </div>
-    <div class="category-card" onclick="openCategory('daily', this)">
-        <h2>Daily Kitchen tools</h2>
-        <p>Handcrafted essential accessories like Glasses, Bowls, Spatulas.</p>
-    </div>
-</div>
-
-<!-- Product Section Area (Hidden until clicked) -->
-<div class="container" id="product-container">
-    
-    <!-- Category: Kasa -->
+<!-- MAIN VIEW: HOMEPAGE SCREEN -->
+<div id="homepage-view" class="view-section">
+    <div class="announcement-bar">
+        ✨ PURE TRADITIONAL ARTISAN CRAFTSMANSHIP SINCE 2000
