@@ -105,6 +105,102 @@
         .upi-apps-btn { display: inline-block; background-color: #0070e0; color: white; padding: 0.6rem 1.2rem; border-radius: 6px; font-weight: bold; text-decoration: none; font-size: 0.9rem; margin-top: 0.5rem; }
 
         .success-box { max-width: 600px; background: var(--white); margin: 4rem auto; padding: 3rem 2rem; border-radius: 16px; border: 1px solid #ebdcc5; box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: center; }
+        /* ==========================================================================
+   POTIVA STORE AUTH MODAL STYLING
+   ========================================================================== */
+        .auth-modal {
+          position: fixed;
+          z-index: 2000; /* Keeps it layered securely above your sticky navbar */
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.6); /* Smooth dark overlay tint */
+          display: none; /* Controlled dynamically by our JS functions later */
+          justify-content: center;
+          align-items: center;
+        }
+        
+        .auth-content {
+          background-color: var(--white);
+          padding: 2.5rem 2rem;
+          border-radius: 8px;
+          width: 90%;
+          max-width: 360px;
+          position: relative;
+          box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .close-auth {
+          position: absolute;
+          right: 1.2rem;
+          top: 0.8rem;
+          font-size: 1.8rem;
+          cursor: pointer;
+          color: var(--text-muted);
+          line-height: 1;
+        }
+        
+        .close-auth:hover {
+          color: var(--text);
+        }
+        
+        .auth-content h2 {
+          font-size: 1.7rem;
+          font-weight: 600;
+          margin-bottom: 1.2rem;
+          color: var(--text);
+        }
+        
+        .auth-content input {
+          width: 100%;
+          padding: 0.7rem;
+          margin-bottom: 0.9rem;
+          border: 1px solid #cccccc;
+          border-radius: 4px;
+          outline: none;
+          font-size: 0.95rem;
+        }
+        
+        .auth-content input:focus {
+          border-color: #e47911;
+          box-shadow: 0 0 3px rgba(228, 121, 17, 0.5);
+        }
+        
+        .auth-submit-btn {
+          width: 100%;
+          padding: 0.7rem;
+          background-color: var(--amazon-orange);
+          border: 1px solid #a88734;
+          border-radius: 4px;
+          cursor: pointer;
+          font-weight: bold;
+          font-size: 0.95rem;
+          margin-top: 0.3rem;
+        }
+        
+        .auth-submit-btn:hover {
+          background-color: var(--amazon-orange-hover);
+        }
+        
+        .auth-toggle-text {
+          font-size: 0.85rem;
+          text-align: center;
+          margin-top: 1.2rem;
+          color: var(--text-muted);
+        }
+        
+        .auth-toggle-text a {
+          color: #0066c0;
+          text-decoration: none;
+          font-weight: 500;
+        }
+        
+        .auth-toggle-text a:hover {
+          text-decoration: underline;
+          color: #c45500;
+        }
+
     </style>
 </head>
 <body>
@@ -124,7 +220,14 @@
         
         <div class="amz-nav-right-links">
             <div class="amz-nav-link-item" onclick="toggleLanguageModal(true)">🌐 <strong id="current-lang-nav-label">EN ▾</strong></div>
-            <div class="amz-nav-link-item"><span>Hello, sign in</span><strong>Account & Lists ▾</strong></div>
+            <!-- Place this inside your header nav element -->
+            <!-- Place this inside your header nav element -->
+            <div class="amz-nav-link-item" id="account-menu-trigger" style="cursor: pointer;">
+                <span class="nav-line-1" id="user-greeting" style="display: block;">Hello, sign in</span>
+                <strong class="nav-line-2" style="display: block;">Account & Lists <span class="nav-icon-caret">▾</span></strong>
+            </div>
+
+
             <div class="amz-nav-link-item" onclick="openTrackingView()"><span id="txt-returns">Returns</span><strong id="txt-orders">& Orders</strong></div>
             <div class="amz-cart-btn" onclick="toggleCart(true)">
                 🛒 <span id="txt-cart">Cart</span> <span class="count-badge" id="global-cart-count">0</span>
@@ -287,11 +390,41 @@
     </div>
 
     <footer><p><strong>Potiva Store</strong> &copy; 2000 - 2026. Handcrafted Traditional Premium Utensils.</p></footer>
-    <script>
+    <!-- PASTE THE AUTH MODAL POPUP HTML HERE -->
+<div id="auth-modal" class="auth-modal" style="display: none;">
+  <div class="auth-content">
+    <span class="close-auth" id="close-auth-btn">&times;</span>
+    
+    <!-- Login Form View -->
+    <div id="login-form-view">
+      <h2>Sign In</h2>
+      <form id="login-form">
+        <input type="email" id="login-email" placeholder="Email" required>
+        <input type="password" id="login-password" placeholder="Password" required>
+        <button type="submit" class="auth-submit-btn">Continue</button>
+      </form>
+      <p class="auth-toggle-text">New customer? <a href="#" id="go-to-signup">Create your Potiva account</a></p>
+    </div>
+
+    <!-- Sign Up Form View -->
+    <div id="signup-form-view" style="display: none;">
+      <h2>Create Account</h2>
+      <form id="signup-form">
+        <input type="text" id="signup-name" placeholder="Your Name" required>
+        <input type="email" id="signup-email" placeholder="Email" required>
+        <input type="password" id="signup-password" placeholder="At least 6 characters" required>
+        <button type="submit" class="auth-submit-btn">Create Account</button>
+      </form>
+      <p class="auth-toggle-text">Already have an account? <a href="#" id="go-to-login">Sign in</a></p>
+    </div>
+  </div>
+</div>
+
+<script>
     var cart = [];
-    var MY_UPI_ID = "s1onu872-1@oksbi"; 
+    var MY_UPI_ID = "slonu872-1@oksbi";
     var MERCHANT_NAME = "Potiva Store";
-    var FORMSPREE_ID = "mrenkkpw"; 
+    var FORMSPREE_ID = "mrenkkpw";
     var SECRET_ADMIN_KEY = "POTIVAADMIN"; 
     var currentTrackingId = "";
     var langDictionary = {
@@ -595,6 +728,112 @@
         document.getElementById("success-page-view").style.display = "block";
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+    // ==========================================================================
+// POTIVA STORE AUTHENTICATION LOGIC CONTROLLERS
+// ==========================================================================
+
+// Cache DOM Selector Nodes securely
+        const potivaAuthModal = document.getElementById('auth-modal');
+        const potivaAccountTrigger = document.getElementById('account-menu-trigger');
+        const potivaCloseAuthBtn = document.getElementById('close-auth-btn');
+        const potivaLoginView = document.getElementById('login-form-view');
+        const potivaSignupView = document.getElementById('signup-form-view');
+        const potivaUserGreeting = document.getElementById('user-greeting');
+        
+        // Interactive view switcher handlers
+        document.getElementById('go-to-signup').addEventListener('click', (e) => {
+            e.preventDefault();
+            potivaLoginView.style.display = 'none';
+            potivaSignupView.style.display = 'block';
+        });
+        
+        document.getElementById('go-to-login').addEventListener('click', (e) => {
+            e.preventDefault();
+            potivaSignupView.style.display = 'none';
+            potivaLoginView.style.display = 'block';
+        });
+        
+        // Primary navigation account session modal hook trigger
+        potivaAccountTrigger.addEventListener('click', () => {
+            const sessionActiveUser = JSON.parse(localStorage.getItem('potiva_session_user'));
+            if (sessionActiveUser) {
+                if (confirm(`Logged in as ${sessionActiveUser.name}. Would you like to log out?`)) {
+                    localStorage.removeItem('potiva_session_user');
+                    syncUserGreetingState();
+                }
+            } else {
+                // Clear inputs, reset view to standard login view layout, then present modal display
+                potivaLoginView.style.display = 'block';
+                potivaSignupView.style.display = 'none';
+                potivaAuthModal.style.display = 'flex';
+            }
+        });
+        
+        // Close interactive overlay panel handle
+        potivaCloseAuthBtn.addEventListener('click', () => {
+            potivaAuthModal.style.display = 'none';
+        });
+        
+        // Handle Account Creation Registration submissions 
+        document.getElementById('signup-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('signup-name').value.trim();
+            const email = document.getElementById('signup-email').value.trim().toLowerCase();
+            const password = document.getElementById('signup-password').value;
+        
+            if (password.length < 6) {
+                alert("Security restriction: Password configuration must contain at least 6 characters.");
+                return;
+            }
+        
+            const newUserProfile = { name, email, orderHistory: [] };
+            
+            // Store user data in simulated LocalStorage database engine
+            localStorage.setItem(`db_user_${email}`, JSON.stringify({ password, profile: newUserProfile }));
+            // Automatically flag session state as signed active
+            localStorage.setItem('potiva_session_user', JSON.stringify(newUserProfile));
+        
+            potivaAuthModal.style.display = 'none';
+            syncUserGreetingState();
+            
+            // Clean up input fields for safety
+            document.getElementById('signup-form').reset();
+        });
+        
+        // Handle Login Form Validation Credentials checking
+        document.getElementById('login-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value.trim().toLowerCase();
+            const password = document.getElementById('login-password').value;
+        
+            const matchedAccountRecord = JSON.parse(localStorage.getItem(`db_user_${email}`));
+        
+            if (matchedAccountRecord && matchedAccountRecord.password === password) {
+                localStorage.setItem('potiva_session_user', JSON.stringify(matchedAccountRecord.profile));
+                potivaAuthModal.style.display = 'none';
+                syncUserGreetingState();
+                document.getElementById('login-form').reset();
+            } else {
+                alert("Authentication Error: The email or password entered does not match our records.");
+            }
+        });
+        
+        // Synchronize global visual greeting elements inside header layout
+        function syncUserGreetingState() {
+            if (!potivaUserGreeting) return;
+            const sessionActiveUser = JSON.parse(localStorage.getItem('potiva_session_user'));
+            
+            if (sessionActiveUser && sessionActiveUser.name) {
+                const structuralFirstName = sessionActiveUser.name.split(' ')[0];
+                potivaUserGreeting.textContent = `Hello, ${structuralFirstName}`;
+            } else {
+                potivaUserGreeting.textContent = "Hello, sign in";
+            }
+        }
+        
+        // Ensure interface maps profile states dynamically upon boot frame execution 
+        document.addEventListener('DOMContentLoaded', syncUserGreetingState);
+
     </script>
 </body>
 </html>
