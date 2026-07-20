@@ -19,15 +19,11 @@
         .track-nav-btn { background: none; border: 1px solid var(--accent-light); color: var(--accent-light); padding: 0.4rem 0.8rem; border-radius: 4px; font-weight: 600; cursor: pointer; }
         .cart-icon-btn { background: none; border: none; color: var(--white); font-size: 1.2rem; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; }
         .cart-count { background-color: var(--accent); color: var(--white); padding: 0.2rem 0.6rem; border-radius: 20px; font-size: 0.9rem; }
-
         header { background: linear-gradient(rgba(44, 23, 6, 0.85), rgba(44, 23, 6, 0.85)), url('https://unsplash.com') no-repeat center/cover; color: var(--white); text-align: center; padding: 5rem 1.5rem; border-bottom: 4px solid var(--accent); }
         header h1 { font-family: 'Cinzel', serif; font-size: 3.5rem; font-weight: 700; letter-spacing: 2px; margin-bottom: 0.5rem; }
         .legacy-tag { display: inline-block; border: 1px solid var(--accent-light); padding: 0.4rem 1.2rem; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 1rem; color: var(--accent-light); border-radius: 4px; }
         header p { font-size: 1.2rem; max-width: 750px; margin: 0 auto; opacity: 0.95; font-style: italic; }
-    </style>
-</head>
-<body>
-    <style>
+        
         .section-title { text-align: center; margin: 4rem 0 2rem 0; color: var(--primary); font-family: 'Cinzel', serif; font-size: 2.2rem; font-weight: 700; }
         .section-title::after { content: ''; display: block; width: 70px; height: 3px; background: var(--accent); margin: 10px auto 0 auto; border-radius: 2px; }
         
@@ -35,8 +31,7 @@
         .category-card { background: var(--white); border: 2px solid #ebdcc5; border-radius: 16px; padding: 3.5rem 1.5rem; text-align: center; cursor: pointer; box-shadow: 0 6px 15px rgba(114,66,22,0.04); transition: all 0.3s ease; }
         .category-card:hover { border-color: var(--accent); background-color: var(--primary); color: var(--white); transform: translateY(-5px); }
         .category-card h2 { font-family: 'Cinzel', serif; font-size: 1.6rem; margin-bottom: 0.8rem; }
-
-        #category-page-view, #checkout-page-view, #success-page-view, #tracking-page-view { display: none; width: 100%; }
+        #category-page-view, #checkout-page-view, #success-page-view, #tracking-page-view, #admin-dashboard-view { display: none; width: 100%; }
         .category-header-bar { background-color: var(--primary-light); color: var(--white); padding: 2rem 1rem; text-align: center; }
         .category-header-bar h2 { font-family: 'Cinzel', serif; font-size: 2rem; }
         .back-btn { display: inline-block; margin-top: 0.5rem; background: none; border: 1px solid var(--accent-light); color: var(--accent-light); padding: 0.4rem 1.2rem; border-radius: 4px; cursor: pointer; font-weight: 600; }
@@ -51,7 +46,6 @@
         .qty-select { padding: 0.4rem; width: 100%; margin-bottom: 0.8rem; border: 1px solid #ebdcc5; border-radius: 6px; font-weight: bold; }
         .buy-btn { background-color: #f0c14b; border: 1px solid #a88734; color: #111; text-align: center; padding: 0.8rem 1rem; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; display: block; font-size: 0.95rem; }
         .buy-btn:hover { background-color: #ddb347; }
-
         .cart-drawer { position: fixed; top: 0; right: -350px; width: 350px; height: 100%; background-color: var(--white); z-index: 200; box-shadow: -4px 0 15px rgba(0,0,0,0.2); transition: right 0.3s ease; padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between; }
         .cart-drawer.open { right: 0; }
         .cart-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f5ece1; padding-bottom: 1rem; }
@@ -72,10 +66,14 @@
 
         .track-timeline { margin-top: 2rem; display: flex; flex-direction: column; gap: 1.5rem; position: relative; padding-left: 2rem; text-align: left; }
         .track-timeline::before { content: ''; position: absolute; left: 6px; top: 10px; bottom: 10px; width: 3px; background: #ebdcc5; }
-        .step { position: relative; color: var(--text-muted); font-size: 0.95rem; }
-        .step::before { content: '✓'; position: absolute; left: -26px; top: 2px; width: 16px; height: 16px; background: #ebdcc5; border-radius: 50%; text-align: center; font-size: 0.7rem; line-height: 16px; color: white; font-weight: bold; }
+        .step { position: relative; color: #a3958c; font-size: 0.95rem; transition: all 0.3s ease; }
+        .step::before { content: ''; position: absolute; left: -26px; top: 5px; width: 14px; height: 14px; background: #ebdcc5; border-radius: 50%; border: 2px solid var(--white); }
         .step.done { color: var(--success); font-weight: bold; }
-        .step.done::before { background: var(--success); }
+        .step.done::before { background: var(--success); box-shadow: 0 0 0 3px rgba(46,125,50,0.2); }
+
+        .admin-btn-zone { display: flex; gap: 0.5rem; margin-top: 1rem; justify-content: center; flex-wrap: wrap; }
+        .status-pill { padding: 0.5rem 1rem; border: 1px solid var(--primary); border-radius: 4px; background: white; cursor: pointer; font-weight: 600; }
+        .status-pill.active { background: var(--primary); color: white; }
 
         .upi-pay-box { text-align: center; margin: 1rem 0; padding: 1rem; background: #f0f7f4; border: 1px solid #c3e6cb; border-radius: 8px; display: none; }
         .upi-qr { width: 180px; height: 180px; margin: 0.5rem auto; border: 4px solid white; display: block; }
@@ -89,6 +87,8 @@
 
         footer { background-color: #1e1915; color: #a89e95; text-align: center; padding: 3rem 1.5rem; font-size: 0.95rem; border-top: 4px solid var(--primary); }
     </style>
+</head>
+<body>
     <div class="announcement-bar">✨ PURE TRADITIONAL ARTISAN CRAFTSMANSHIP SINCE 2000</div>
     
     <nav class="navbar">
@@ -163,7 +163,7 @@
                     </div>
                     <div class="upi-pay-box" id="upi-node">
                         <p style="font-weight:600; font-size:0.9rem; color:var(--primary);">Scan QR or Click Mobile Link to Pay:</p>
-                        <img class="upi-qr" id="live-upi-qr" src=""><a class="upi-apps-btn" id="live-upi-link" href="#" target="_blank">Open UPI App Framework</a>
+                        <img class="upi-qr" id="live-upi-qr" src=""><a class="upi-apps-btn" id="live-upi-link" href="#" target="_blank">Open UPI App</a>
                     </div>
                     <input type="hidden" name="Order ID" id="hidden-order-id">
                     <input type="hidden" name="Ordered Items Summary" id="hidden-items-string">
@@ -176,23 +176,34 @@
             </div>
         </form>
     </div>
-
-    <!-- LIVE TRACKING LAYOUT MODAL -->
+    <!-- CONTROLLED LIVE TRACKING VIEW -->
     <div id="tracking-page-view">
         <div class="success-box" style="margin-top:2rem;">
             <div class="form-section-title">📦 Track Your Amazon-Style Order</div>
-            <p style="margin-bottom: 1.5rem; color:var(--text-muted);">Apna Order ID daalkar live delivery status aur location check karein:</p>
+            <p style="margin-bottom: 1.5rem; color:var(--text-muted);">Order ID ya Secret Key daal kar status dekhein ya badlein:</p>
             <div style="display:flex; gap:0.5rem; max-width:400px; margin:0 auto 2rem auto;">
                 <input type="text" class="form-control" id="track-input-id" placeholder="POT-123456">
                 <button class="buy-btn" style="width:120px; margin:0;" onclick="executeTrackingSearch()">Search</button>
             </div>
+            
             <div id="tracking-visual-result" style="display:none; border-top:1px dashed #ebdcc5; padding-top:1.5rem;">
                 <h3 style="color:var(--primary);" id="track-display-id">Order ID: #POT-XXXXXX</h3>
                 <div class="track-timeline">
-                    <div class="step done" id="step-1">📝 Order Received (Confirmed Natively)</div>
+                    <div class="step" id="step-1">📝 Order Received (Confirmed Natively)</div>
                     <div class="step" id="step-2">📦 Packed at Berhampore Hub (Awaiting Dispatch)</div>
                     <div class="step" id="step-3">🚚 In-Transit (Dispatched via Courier Partner)</div>
                     <div class="step" id="step-4">🏠 Out for Delivery / Successfully Delivered</div>
+                </div>
+            </div>
+
+            <div id="admin-control-dashboard" style="display:none; margin-top:2rem; background:#f4eade; padding:1.5rem; border-radius:8px; border:1px solid var(--primary);">
+                <h4 style="color:var(--primary);">🛠️ Potiva Admin Order Controller</h4>
+                <p style="font-size:0.85rem; margin-bottom:1rem;">Select tracking step level for current Order ID:</p>
+                <div class="admin-btn-zone">
+                    <button class="status-pill" onclick="changeOrderStatus(1)">1. Received</button>
+                    <button class="status-pill" onclick="changeOrderStatus(2)">2. Packed</button>
+                    <button class="status-pill" onclick="changeOrderStatus(3)">3. Shipped</button>
+                    <button class="status-pill" onclick="changeOrderStatus(4)">4. Delivered</button>
                 </div>
             </div>
         </div>
@@ -209,6 +220,7 @@
             <button class="checkout-btn" onclick="returnToHome()">Continue Shopping</button>
         </div>
     </div>
+
     <div id="cart-drawer" class="cart-drawer">
         <div class="cart-header">
             <h3>Shopping Cart</h3>
@@ -226,12 +238,13 @@
     <footer>
         <p><strong>Potiva Store</strong> &copy; 2000 - 2026. Handcrafted Traditional Premium Utensils.</p>
     </footer>
-
     <script>
     var cart = [];
     var MY_UPI_ID = "8617565772@ptsbi"; 
     var MERCHANT_NAME = "Potiva Store";
     var FORMSPREE_ID = "mrenkkpw"; 
+    var SECRET_ADMIN_KEY = "POTIVAADMIN"; 
+    var currentTrackingId = "";
 
     function openCategoryPage(categoryName, categoryDisplayName) {
         document.getElementById("homepage-view").style.display = "none";
@@ -262,6 +275,8 @@
         document.getElementById("checkout-page-view").style.display = "none";
         document.getElementById("success-page-view").style.display = "none";
         document.getElementById("tracking-page-view").style.display = "block";
+        document.getElementById("admin-control-dashboard").style.display = "none";
+        document.getElementById("tracking-visual-result").style.display = "none";
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -318,21 +333,50 @@
         document.getElementById("upi-node").style.display = (mode === "UPI") ? "block" : "none";
     }
 
-    function executeTrackingSearch() {
-        var idInput = document.getElementById("track-input-id").value.trim().toUpperCase();
-        if(!idInput) { alert("Please enter a valid Order ID!"); return; }
-        
-        document.getElementById("track-display-id").innerText = "Order ID: #" + idInput;
-        document.getElementById("tracking-visual-result").style.display = "block";
-        
-        var lastDigit = idInput.charCodeAt(idInput.length - 1) % 4;
+    function renderTimelineVisuals(level) {
+        document.getElementById("step-1").classList.remove("done");
         document.getElementById("step-2").classList.remove("done");
         document.getElementById("step-3").classList.remove("done");
         document.getElementById("step-4").classList.remove("done");
         
-        if(lastDigit >= 1) document.getElementById("step-2").classList.add("done");
-        if(lastDigit >= 2) document.getElementById("step-3").classList.add("done");
-        if(lastDigit === 3 || lastDigit === 0) document.getElementById("step-4").classList.add("done");
+        if(level >= 1) document.getElementById("step-1").classList.add("done");
+        if(level >= 2) document.getElementById("step-2").classList.add("done");
+        if(level >= 3) document.getElementById("step-3").classList.add("done");
+        if(level >= 4) document.getElementById("step-4").classList.add("done");
+    }
+
+    function executeTrackingSearch() {
+        var idInput = document.getElementById("track-input-id").value.trim().toUpperCase();
+        if(!idInput) { alert("Please enter an Order ID or Admin Key!"); return; }
+        
+        if(idInput === SECRET_ADMIN_KEY) {
+            document.getElementById("admin-control-dashboard").style.display = "block";
+            document.getElementById("tracking-visual-result").style.display = "none";
+            alert("Admin Access Granted! Status update panel unlocked.");
+            return;
+        }
+        
+        currentTrackingId = idInput;
+        document.getElementById("track-display-id").innerText = "Order ID: #" + idInput;
+        document.getElementById("tracking-visual-result").style.display = "block";
+        document.getElementById("admin-control-dashboard").style.display = "none";
+        
+        var savedLevel = localStorage.getItem("status_" + idInput) || 1;
+        renderTimelineVisuals(parseInt(savedLevel));
+    }
+
+    function changeOrderStatus(level) {
+        var targetId = prompt("Enter the Customer Order ID to apply status update:", currentTrackingId);
+        if(!targetId) return;
+        
+        targetId = targetId.trim().toUpperCase();
+        localStorage.setItem("status_" + targetId, level);
+        alert("Success! Status updated for #" + targetId);
+        
+        currentTrackingId = targetId;
+        document.getElementById("track-display-id").innerText = "Order ID: #" + targetId;
+        document.getElementById("tracking-visual-result").style.display = "block";
+        renderTimelineVisuals(level);
     }
 
     function handleFormSubmission(event) {
@@ -357,6 +401,8 @@
         });
         receiptContainer.innerHTML += `<div class="receipt-row" style="font-weight:bold; border-top:2px solid #ebdcc5; font-size:1.1rem;"><span>Grand Total:</span><span>₹${total}</span></div>`;
         
+        localStorage.setItem("status_" + randomId, 1);
+        
         document.getElementById("hidden-order-id").value = "#" + randomId;
         document.getElementById("hidden-items-string").value = itemsString;
         document.getElementById("hidden-total-bill").value = "₹" + total;
@@ -364,7 +410,6 @@
 
         var form = document.getElementById("native-checkout-form");
         var data = new FormData(form);
-        
         fetch(form.action, { method: form.method, body: data, headers: { 'Accept': 'application/json' } });
 
         cart = []; updateCartUI();
